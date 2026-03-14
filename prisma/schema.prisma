@@ -1,0 +1,143 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+model UserProfile {
+  id                  String   @id @default("default")
+  name                String?
+  age                 Int?
+  heightCm            Float?
+  weightKg            Float?
+  gender              String?
+  diabetesType        String?
+  diagnosisYear       Int?
+  lastA1C             Float?
+  lastA1CDate         DateTime?
+  insulinType         String?
+  rapidInsulinName    String?
+  longActingName      String?
+  carbRatio           Float?
+  correctionFactor    Float?
+  targetLow           Float    @default(70)
+  targetHigh          Float    @default(180)
+  glucoseUnit         String   @default("mgdl")
+  weightUnit          String   @default("lbs")
+  heightUnit          String   @default("in")
+  onboardingComplete  Boolean  @default(false)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model PainPoint {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  label       String
+  description String?
+  isActive    Boolean  @default(true)
+  priority    Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model GlucoseReading {
+  id          String   @id @default(cuid())
+  timestamp   DateTime
+  value       Float
+  trend       String?
+  source      String
+  createdAt   DateTime @default(now())
+
+  @@unique([timestamp, source])
+  @@index([timestamp])
+}
+
+model Meal {
+  id              String   @id @default(cuid())
+  timestamp       DateTime
+  mealType        String
+  name            String?
+  photoUrl        String?
+  logMethod       String
+  carbsGrams      Float?
+  proteinGrams    Float?
+  fatGrams        Float?
+  fiberGrams      Float?
+  calories        Float?
+  glycemicEstimate String?
+  barcode         String?
+  productName     String?
+  bgImpactJson    String?
+  tirScore        Float?
+  tirColor        String?
+  aiAnalysisJson  String?
+  notes           String?
+  isFavorite      Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  items           MealItem[]
+
+  @@index([timestamp])
+  @@index([isFavorite])
+}
+
+model MealItem {
+  id              String  @id @default(cuid())
+  mealId          String
+  meal            Meal    @relation(fields: [mealId], references: [id], onDelete: Cascade)
+  name            String
+  servingSize     String?
+  servingGrams    Float?
+  carbsGrams      Float?
+  proteinGrams    Float?
+  fatGrams        Float?
+  fiberGrams      Float?
+  calories        Float?
+  source          String?
+  sourceId        String?
+
+  @@index([mealId])
+}
+
+model LifestyleLog {
+  id          String   @id @default(cuid())
+  timestamp   DateTime
+  type        String
+  intensity   Int?
+  dataJson    String?
+  notes       String?
+  createdAt   DateTime @default(now())
+
+  @@index([timestamp])
+  @@index([type])
+}
+
+model Insight {
+  id          String   @id @default(cuid())
+  category    String
+  title       String
+  body        String
+  actionable  String?
+  dataPoints  Int
+  confidence  String
+  source      String
+  painPointId String?
+  metadata    String?
+  isActive    Boolean  @default(true)
+  generatedAt DateTime @default(now())
+
+  @@index([category])
+  @@index([painPointId])
+}
+
+model DexcomConnection {
+  id                String    @id @default("default")
+  accessToken       String?
+  refreshToken      String?
+  tokenExpiry       DateTime?
+  lastSyncAt        DateTime?
+  isConnected       Boolean   @default(false)
+}

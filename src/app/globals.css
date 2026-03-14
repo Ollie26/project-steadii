@@ -1,0 +1,197 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F8F7F5;
+  --bg-card: #FFFFFF;
+  --accent-primary: #8B7EC8;
+  --accent-primary-light: #B8ADE8;
+  --accent-secondary: #6BA3E8;
+  --color-in-range: #4ECDC4;
+  --color-high: #F4A261;
+  --color-low: #E76F6F;
+  --color-severe-high: #E07B39;
+  --color-severe-low: #D14545;
+  --text-primary: #1A1A2E;
+  --text-secondary: #6B7280;
+  --text-tertiary: #9CA3AF;
+  --border: #E5E7EB;
+  --border-light: #F3F4F6;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+}
+
+@layer base {
+  body {
+    @apply bg-white antialiased;
+    color: var(--text-primary);
+    font-family: var(--font-body), 'Plus Jakarta Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+}
+
+@layer components {
+  .card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(229, 231, 235, 0.5);
+    padding: 1rem;
+  }
+
+  .card-warm {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 1rem;
+  }
+
+  .btn-primary {
+    @apply font-semibold px-6 py-3 text-white transition-all duration-200 active:scale-[0.97] focus:outline-none focus:ring-offset-2;
+    background: var(--accent-primary);
+    border-radius: var(--radius-lg);
+  }
+  .btn-primary:hover {
+    opacity: 0.9;
+  }
+  .btn-primary:focus {
+    box-shadow: 0 0 0 3px rgba(139, 126, 200, 0.4);
+  }
+
+  .btn-secondary {
+    @apply font-medium px-6 py-3 transition-all duration-200 active:scale-[0.97] focus:outline-none focus:ring-offset-2;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+  .btn-secondary:hover {
+    background: #f3f4f6;
+  }
+
+  .btn-ghost {
+    @apply font-medium px-4 py-2 transition-all duration-200 active:scale-[0.97] focus:outline-none;
+    color: var(--accent-primary);
+    border-radius: var(--radius-lg);
+  }
+  .btn-ghost:hover {
+    background: rgba(139, 126, 200, 0.05);
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 transition-all duration-200 focus:outline-none;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    color: var(--text-primary);
+  }
+  .input-field::placeholder {
+    color: var(--text-tertiary);
+  }
+  .input-field:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(139, 126, 200, 0.15);
+  }
+
+  .label {
+    @apply text-sm font-medium mb-1.5 block;
+    color: var(--text-secondary);
+  }
+
+  .section-title {
+    @apply text-lg font-semibold;
+    color: var(--text-primary);
+  }
+
+  .mono {
+    font-family: var(--font-mono), 'JetBrains Mono', monospace;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .tap-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  @keyframes slide-up {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-down-in {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  @keyframes soft-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.1); }
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out;
+  }
+
+  .animate-slide-down-in {
+    animation: slide-down-in 0.3s ease-out;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.2s ease-out;
+  }
+
+  .animate-fade-out {
+    animation: fade-out 0.2s ease-out forwards;
+  }
+
+  .animate-soft-pulse {
+    animation: soft-pulse 1.5s ease-in-out 1;
+  }
+}
